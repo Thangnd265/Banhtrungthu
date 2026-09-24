@@ -17,12 +17,46 @@ if %errorlevel% equ 0 set "GIT_CMD=git"
 if not defined GIT_CMD for /d %%D in ("%LOCALAPPDATA%\GitHubDesktop\app-*") do if exist "%%D\resources\app\git\cmd\git.exe" set "GIT_CMD=%%D\resources\app\git\cmd\git.exe"
 if not defined GIT_CMD if exist "%LOCALAPPDATA%\Programs\Git\cmd\git.exe" set "GIT_CMD=%LOCALAPPDATA%\Programs\Git\cmd\git.exe"
 if not defined GIT_CMD if exist "%ProgramFiles%\Git\cmd\git.exe" set "GIT_CMD=%ProgramFiles%\Git\cmd\git.exe"
-if not defined GIT_CMD if exist "%ProgramFiles(x86)%\Git\cmd\git.exe" set "GIT_CMD=%ProgramFiles(x86)%\Git\cmd\git.exe"
+if not defined GIT_CMD if exist "%LOCALAPPDATA%\PortableGit\cmd\git.exe" set "GIT_CMD=%LOCALAPPDATA%\PortableGit\cmd\git.exe"
+if not defined GIT_CMD if exist "%USERPROFILE%\.portable_git\cmd\git.exe" set "GIT_CMD=%USERPROFILE%\.portable_git\cmd\git.exe"
 
 if defined GIT_CMD goto :git_ready
-echo [LỖI] Không tìm thấy Git hoặc GitHub Desktop trên máy tính!
+
+echo ===================================================================
+echo   MÁY TÍNH CHƯA CÓ GIT - ĐANG TỰ ĐỘNG TẢI GIT MINI DI ĐỘNG (PORTABLE)
+echo ===================================================================
+echo [*] Bạn không cần cài đặt phần mềm nào cả.
+echo [*] Đang tự động tải Git Mini siêu nhẹ về máy [chỉ cần tải 1 lần duy nhất]...
 echo.
-echo Vui lòng tải và cài đặt một trong hai phần mềm sau:
+
+set "PORTABLE_DIR=%LOCALAPPDATA%\PortableGit"
+if not exist "%PORTABLE_DIR%" mkdir "%PORTABLE_DIR%" >nul 2>&1
+
+set "MINGIT_ZIP=%TEMP%\mingit.zip"
+curl.exe -L -# -o "%MINGIT_ZIP%" "https://github.com/git-for-windows/git/releases/download/v2.47.1.windows.1/MinGit-2.47.1-64-bit.zip"
+
+if not exist "%MINGIT_ZIP%" (
+    echo [!] Đang tải qua cổng dự phòng PowerShell...
+    powershell -NoProfile -Command "(New-Object System.Net.WebClient).DownloadFile('https://github.com/git-for-windows/git/releases/download/v2.47.1.windows.1/MinGit-2.47.1-64-bit.zip', '%MINGIT_ZIP%')" >nul 2>&1
+)
+
+if exist "%MINGIT_ZIP%" (
+    echo [*] Đang giải nén công cụ Git Mini di động...
+    powershell -NoProfile -Command "Expand-Archive -Path '%MINGIT_ZIP%' -DestinationPath '%PORTABLE_DIR%' -Force" >nul 2>&1
+    del /f /q "%MINGIT_ZIP%" >nul 2>&1
+)
+
+if exist "%PORTABLE_DIR%\cmd\git.exe" (
+    set "GIT_CMD=%PORTABLE_DIR%\cmd\git.exe"
+    echo [*] Đã thiết lập Git Mini di động thành công!
+    echo ===================================================================
+    echo.
+    goto :git_ready
+)
+
+echo [LỖI] Không tìm thấy Git trên máy và không thể tự động tải Git Mini.
+echo.
+echo Vui lòng tải một trong hai phần mềm sau để sử dụng:
 echo  - GitHub Desktop [Khuyên dùng, rất dễ dùng]: https://desktop.github.com/
 echo  - Git for Windows: https://git-scm.com/
 echo.
