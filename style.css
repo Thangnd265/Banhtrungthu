@@ -380,6 +380,12 @@ html, body {
   line-height: 1.8;
 }
 
+/* Khối khóa từ cuối cùng dính chặt với con trỏ sao, cấm ngắt dòng giữa chữ và sao */
+.typewriter-nowrap-unit {
+  display: inline;
+  white-space: nowrap;
+}
+
 .typewriter-text-body {
   display: inline;
 }
@@ -388,7 +394,7 @@ html, body {
 .typewriter-star-cursor {
   display: inline-block;
   position: relative;
-  margin-left: 4px;
+  margin-left: 3px;
   vertical-align: middle;
   white-space: nowrap;
   line-height: 1;

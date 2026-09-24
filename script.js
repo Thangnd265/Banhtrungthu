@@ -296,6 +296,34 @@ function initLanterns() {
 // ==========================================
 // 4. HIỆU ỨNG GÕ CHỮ LỜI CHÚC (STAGE 1) VỚI SAO LẤP LÁNH CUỐI CHỮ
 // ==========================================
+function renderTypewriterHTML(text, isDone) {
+  if (!text) {
+    return `<span class="greeting-text-flow"><span class="typewriter-nowrap-unit"><span class="typewriter-star-cursor ${isDone ? 'done' : ''}"><span class="star-sparkle-core">✦</span></span></span></span>`;
+  }
+
+  // Tách phần khoảng trắng / xuống dòng ở cuối (nếu có)
+  let cleanText = text;
+  let trailingWs = '';
+  const match = text.match(/[\s\n]+$/);
+  if (match) {
+    trailingWs = match[0];
+    cleanText = text.slice(0, match.index);
+  }
+
+  // Tách từ cuối cùng để bọc vào white-space: nowrap cùng con trỏ ngôi sao
+  const lastSpaceIdx = Math.max(cleanText.lastIndexOf(' '), cleanText.lastIndexOf('\n'));
+  let prefix = '';
+  let lastWord = cleanText;
+  if (lastSpaceIdx !== -1) {
+    prefix = cleanText.slice(0, lastSpaceIdx + 1);
+    lastWord = cleanText.slice(lastSpaceIdx + 1);
+  }
+
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  return `<span class="greeting-text-flow">${esc(prefix)}<span class="typewriter-nowrap-unit">${esc(lastWord)}<span class="typewriter-star-cursor ${isDone ? 'done' : ''}"><span class="star-sparkle-core">✦</span></span></span>${esc(trailingWs)}</span>`;
+}
+
 function createTypewriterSparkle(targetEl) {
   if (!targetEl) return;
   const sparkle = document.createElement('span');
@@ -325,18 +353,17 @@ function playTypewriterGreeting(onComplete) {
 
   const fullText = (CONFIG.openingGreeting || "").trim();
   let index = 0;
-  greetingEl.innerHTML = '<span class="greeting-text-flow"><span class="typewriter-text-body"></span><span class="typewriter-star-cursor"><span class="star-sparkle-core">✦</span></span></span>';
-  const textBody = greetingEl.querySelector('.typewriter-text-body');
-  const cursor = greetingEl.querySelector('.typewriter-star-cursor');
+  greetingEl.innerHTML = renderTypewriterHTML('', false);
 
   function typeChar() {
     if (index < fullText.length) {
-      const char = fullText[index];
-      textBody.textContent += char;
       index++;
+      const currentSub = fullText.slice(0, index);
+      const char = fullText[index - 1];
+      greetingEl.innerHTML = renderTypewriterHTML(currentSub, false);
 
-      // Tỏa bụi sao lấp lánh nhẹ nhàng ở cuối chỗ chữ hiện lên dần (không tạo khi gặp dấu cách hay xuống dòng)
-      if (index % 4 === 0 && char !== ' ' && char !== '\n') {
+      const cursor = greetingEl.querySelector('.typewriter-star-cursor');
+      if (cursor && index % 4 === 0 && char !== ' ' && char !== '\n') {
         createTypewriterSparkle(cursor);
       }
 
@@ -349,7 +376,7 @@ function playTypewriterGreeting(onComplete) {
       setTimeout(typeChar, delay);
     } else {
       // Đã gõ xong toàn bộ: giữ sao sáng lung linh
-      if (cursor) cursor.classList.add('done');
+      greetingEl.innerHTML = renderTypewriterHTML(fullText, true);
       setTimeout(() => {
         if (onComplete) onComplete();
       }, CONFIG.greetingHoldTime);
