@@ -339,31 +339,30 @@ let activeFloatingPhotos = 0;
 let isAnimating = false;
 
 // Giới hạn số lượng đèn bay đồng thời để bầu trời thoáng đãng, thơ mộng
-const MAX_CONCURRENT_FLOATING_PHOTOS = 6;
+const MAX_CONCURRENT_FLOATING_PHOTOS = 4;
 
-// Hệ thống 3 làn bay độc lập chống đè lấn và va chạm trên màn hình điện thoại
+// Hệ thống 2 luồng bay rộng Trái - Phải độc lập so le chống đè lấn
 const LANES = [
-  { minLeft: 4,  maxLeft: 20, name: 'left' },
-  { minLeft: 54, maxLeft: 70, name: 'right' },
-  { minLeft: 28, maxLeft: 44, name: 'center' }
+  { minLeft: 6,  maxLeft: 12, name: 'left' },
+  { minLeft: 52, maxLeft: 58, name: 'right' }
 ];
 let currentLaneIndex = 0;
 
-// Các tầng độ sâu xa - gần
+// Các tầng độ sâu xa - gần (đồng bộ hóa thời gian bay 12s - 17s để không đuổi kịp nhau)
 const DEPTH_LEVELS = [
   {
     className: 'photo-depth-far',
-    durationRange: [16, 22],
+    durationRange: [15, 17],
     targetOpacity: 0.72
   },
   {
     className: 'photo-depth-mid',
-    durationRange: [12, 16],
+    durationRange: [13, 15],
     targetOpacity: 0.9
   },
   {
     className: 'photo-depth-near',
-    durationRange: [9, 12],
+    durationRange: [12, 14],
     targetOpacity: 1.0
   }
 ];
@@ -386,11 +385,11 @@ function startFloatingPhotos() {
 
   // Thả 2 đèn đầu tiên so le nhau
   setTimeout(spawnFloatingPhoto, 400);
-  setTimeout(spawnFloatingPhoto, 2600);
+  setTimeout(spawnFloatingPhoto, 2700);
 
-  // Định kỳ thả đèn trời tiếp theo với giãn cách hợp lý (3.8s) để không bị đè nhau
+  // Định kỳ thả đèn trời tiếp theo với giãn cách hợp lý (4.6s) để không bị đè nhau
   if (floatingPhotoTimer) clearInterval(floatingPhotoTimer);
-  floatingPhotoTimer = setInterval(spawnFloatingPhoto, 3800);
+  floatingPhotoTimer = setInterval(spawnFloatingPhoto, 4600);
 }
 
 // Hàm tương thích ngược với kịch bản cũ
@@ -418,7 +417,7 @@ function spawnFloatingPhoto() {
   const photoData = CONFIG.photos[photoStreamIndex % total];
   photoStreamIndex++;
 
-  // Chọn làn bay theo thứ tự xoay vòng (Trái -> Phải -> Giữa) để không bao giờ đè lên nhau
+  // Chọn làn bay theo thứ tự xoay vòng (Trái -> Phải) để không bao giờ đè lên nhau
   const lane = LANES[currentLaneIndex % LANES.length];
   currentLaneIndex++;
   const leftPercent = (Math.random() * (lane.maxLeft - lane.minLeft) + lane.minLeft).toFixed(1);
@@ -434,11 +433,11 @@ function spawnFloatingPhoto() {
   // Áp dụng template đèn trời sky-lantern kèm touch-target mở rộng vùng chạm
   card.className = `floating-photo sky-lantern touch-target ${depth.className}`;
 
-  // Tính toán thời gian bay, độ lệch ngang nhẹ và góc nghiêng tự nhiên
+  // Tính toán thời gian bay, độ lệch ngang nhẹ và góc nghiêng thẳng tự nhiên (-2deg đến +2deg)
   const [minDur, maxDur] = depth.durationRange;
   const duration = (Math.random() * (maxDur - minDur) + minDur).toFixed(1);
-  const driftX = (Math.random() * 40 - 20).toFixed(0);
-  const rot = (Math.random() * 6 - 3).toFixed(1);
+  const driftX = (Math.random() * 20 - 10).toFixed(0);
+  const rot = (Math.random() * 4 - 2).toFixed(1);
 
   card.style.left = `${leftPercent}%`;
   card.style.animationDuration = `${duration}s`;
