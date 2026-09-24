@@ -1,0 +1,21 @@
+# ==============================================================================
+# HƯỚNG DẪN CHỈNH SỬA NỘI DUNG THIỆP TRUNG THU
+# Bạn chỉ cần thay đổi nội dung bên dưới mỗi mục, sau đó bấm Lưu (Ctrl + S)!
+# Sau khi chỉnh sửa xong, nhấp đúp vào file "DONG-BO-LEN-GITHUB.bat" để đẩy lên mạng.
+# ==============================================================================
+
+[TEN_NGUOI_YEU]
+Bé Yêu Của Anh 💕
+
+[LOI_CHUC_MO_DAU]
+Chúc em một mùa Tết Trung Thu thật ấm áp, ngọt ngào và tràn ngập niềm vui! 🌕✨
+Cảm ơn em vì đã đến bên anh, làm cho cuộc sống này trở nên lung linh và dịu êm như ánh trăng rằm.
+Trăng ngoài kia có lúc tròn lúc khuyết, nhưng yêu thương anh dành cho em thì luôn tròn đầy mãi mãi! 💖🏮
+
+[LOI_NHAN_DEN_TROI]
+Vầng trăng đêm nay đẹp... nhưng không bằng nụ cười của em 🌙
+Nguyện ước dưới ánh đèn lồng: Luôn có em bên đời 🏮✨
+Mỗi khoảnh khắc bên em đều là kỷ niệm vô giá 💖
+Yêu em nhiều hơn cả ngàn vì sao trên bầu trời đêm ✨🥰
+Bên em mỗi ngày đều là một mùa trăng hạnh phúc 🌕
+Hẹn ước cùng em đi qua thật nhiều mùa Trung Thu nữa nhé! ❤️

@@ -50,8 +50,103 @@ const CONFIG = {
 };
 
 // ==========================================
-// 2. KHỞI TẠO BẦU TRỜI ĐÊM & ĐOM ĐÓM (CANVAS)
+// 1.1 TỰ ĐỘNG ĐỌC CẤU HÌNH TỪ NOIDUNG.TXT & THƯ MỤC ANH/
 // ==========================================
+async function loadConfigFromTxt() {
+  try {
+    const res = await fetch('noidung.txt');
+    if (res.ok) {
+      const text = await res.text();
+      parseNoidungTxt(text);
+    }
+  } catch (err) {
+    // Chế độ fallback nếu mở file cục bộ bị chặn fetch
+    console.log('Using default CONFIG (local/fallback mode)');
+  }
+
+  // Tự động kiểm tra và nạp ảnh từ thư mục anh/
+  await detectPhotosInAnhFolder();
+}
+
+function parseNoidungTxt(text) {
+  const sections = {};
+  let currentSection = null;
+
+  const lines = text.split(/\r?\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('#') || (!trimmed && !currentSection)) continue;
+
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      currentSection = trimmed.slice(1, -1);
+      sections[currentSection] = [];
+    } else if (currentSection && trimmed) {
+      sections[currentSection].push(line);
+    }
+  }
+
+  if (sections['TEN_NGUOI_YEU'] && sections['TEN_NGUOI_YEU'].length > 0) {
+    const name = sections['TEN_NGUOI_YEU'].join(' ').trim();
+    if (name) CONFIG.recipientName = name;
+  }
+
+  if (sections['LOI_CHUC_MO_DAU'] && sections['LOI_CHUC_MO_DAU'].length > 0) {
+    const greeting = sections['LOI_CHUC_MO_DAU'].join('\n').trim();
+    if (greeting) CONFIG.openingGreeting = greeting;
+  }
+
+  if (sections['LOI_NHAN_DEN_TROI'] && sections['LOI_NHAN_DEN_TROI'].length > 0) {
+    const captions = sections['LOI_NHAN_DEN_TROI'].map(c => c.trim()).filter(Boolean);
+    if (captions.length > 0) {
+      captions.forEach((cap, idx) => {
+        if (CONFIG.photos[idx]) {
+          CONFIG.photos[idx].caption = cap;
+        }
+      });
+    }
+  }
+}
+
+async function detectPhotosInAnhFolder() {
+  const defaultCaptions = [
+    "Vầng trăng đêm nay đẹp... nhưng không bằng nụ cười của em 🌙",
+    "Nguyện ước dưới ánh đèn lồng: Luôn có em bên đời 🏮✨",
+    "Mỗi khoảnh khắc bên em đều là kỷ niệm vô giá 💖",
+    "Yêu em nhiều hơn cả ngàn vì sao trên bầu trời đêm ✨🥰",
+    "Bên em mỗi ngày đều là một mùa trăng hạnh phúc 🌕",
+    "Hẹn ước cùng em đi qua thật nhiều mùa Trung Thu nữa nhé! ❤️"
+  ];
+
+  // Thử kiểm tra ảnh từ anh/1.jpg đến anh/25.jpg
+  const testPromises = [];
+  for (let i = 1; i <= 25; i++) {
+    testPromises.push(
+      new Promise((resolve) => {
+        const img = new Image();
+        const url = `anh/${i}.jpg`;
+        img.onload = () => resolve({ url, index: i });
+        img.onerror = () => resolve(null);
+        img.src = url;
+      })
+    );
+  }
+
+  const results = await Promise.all(testPromises);
+  const validPhotos = results.filter(Boolean);
+
+  if (validPhotos.length > 0) {
+    validPhotos.sort((a, b) => a.index - b.index);
+    CONFIG.photos = validPhotos.map((item, idx) => {
+      const existingCaption = CONFIG.photos[idx] && CONFIG.photos[idx].caption;
+      const caption = existingCaption || defaultCaptions[idx % defaultCaptions.length];
+      return {
+        url: item.url,
+        caption: caption,
+        date: "Đêm Rằm Tháng 8"
+      };
+    });
+  }
+}
 function initSkyCanvas() {
   const canvas = document.getElementById('sky-canvas');
   if (!canvas) return;
@@ -511,17 +606,20 @@ function setupAudioAutoplay() {
 // ==========================================
 // 7. KHỞI CHẠY KỊCH BẢN CHÍNH
 // ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Vẽ nền sao và đom đóm
+document.addEventListener('DOMContentLoaded', async () => {
+  // 1. Tự động đọc cấu hình từ noidung.txt và thư mục anh/
+  await loadConfigFromTxt();
+
+  // 2. Vẽ nền sao và đom đóm
   initSkyCanvas();
 
-  // 2. Thả đèn lồng Hội An
+  // 3. Thả đèn lồng Hội An
   initLanterns();
 
-  // 3. Tự động bật nhạc
+  // 4. Tự động bật nhạc
   setupAudioAutoplay();
 
-  // 4. Bắt đầu gõ lời chúc -> sau đó tự động chuyển sang xem chuỗi ảnh
+  // 5. Bắt đầu gõ lời chúc -> sau đó tự động chuyển sang thả đèn trời kỷ niệm
   playTypewriterGreeting(() => {
     startPhotoShowcase();
   });
