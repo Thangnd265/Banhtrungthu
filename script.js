@@ -528,6 +528,7 @@ function spawnFloatingPhoto() {
   // Hỗ trợ cả chạm di động (touchend) và click chuột để mở xem chi tiết
   let lastTapTime = 0;
   const handleOpen = (e) => {
+    if (e.cancelable) e.preventDefault();
     e.stopPropagation();
     const now = Date.now();
     if (now - lastTapTime < 350) return; // Debounce chống tap đúp
@@ -535,8 +536,9 @@ function spawnFloatingPhoto() {
     openPhotoModal(photoData);
   };
 
+  card._photoData = photoData;
   card.addEventListener('click', handleOpen);
-  card.addEventListener('touchend', handleOpen, { passive: true });
+  card.addEventListener('touchend', handleOpen, { passive: false });
 
   container.appendChild(card);
   activeFloatingPhotos++;
@@ -554,10 +556,27 @@ function spawnFloatingPhoto() {
 }
 
 // Cài đặt modal xem ảnh phóng to
+let modalOpenTime = 0;
+
 function setupPhotoModal() {
   const modal = document.getElementById('photo-modal');
   const closeBtn = document.getElementById('close-modal-btn');
+  const container = document.getElementById('floating-photos-container');
   if (!modal) return;
+
+  // Ủy quyền sự kiện (Event Delegation) trên container để đảm bảo mọi cú chạm đều bắt được 100%
+  if (container && !container._hasDelegation) {
+    container._hasDelegation = true;
+    const handleDelegate = (e) => {
+      const card = e.target.closest('.floating-photo');
+      if (card && card._photoData) {
+        if (e.cancelable) e.preventDefault();
+        openPhotoModal(card._photoData);
+      }
+    };
+    container.addEventListener('click', handleDelegate);
+    container.addEventListener('touchend', handleDelegate, { passive: false });
+  }
 
   if (closeBtn) {
     closeBtn.addEventListener('click', (e) => {
@@ -567,6 +586,8 @@ function setupPhotoModal() {
   }
 
   modal.addEventListener('click', (e) => {
+    // Chống đóng tức thì do synthetic click từ cùng lần chạm mở
+    if (Date.now() - modalOpenTime < 400) return;
     if (e.target === modal) {
       closePhotoModal();
     }
@@ -580,6 +601,7 @@ function openPhotoModal(photoData) {
   const dateEl = document.getElementById('photo-date');
 
   if (!modal) return;
+  modalOpenTime = Date.now();
 
   if (imgEl) {
     imgEl.src = photoData.url;

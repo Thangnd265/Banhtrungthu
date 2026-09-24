@@ -293,7 +293,7 @@ html, body {
 .stage-section.active {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0) scale(1);
+  transform: none;
   pointer-events: auto;
 }
 
@@ -765,11 +765,21 @@ html, body {
   right: -24px;
   z-index: 99;
   cursor: pointer;
+  pointer-events: auto;
+}
+
+.floating-photo,
+.floating-photo * {
+  pointer-events: auto !important;
 }
 
 .floating-photo:active {
-  transform: scale(1.08) !important;
-  filter: brightness(1.2);
+  filter: brightness(1.25);
+}
+
+.floating-photo:active .floating-photo-img-box {
+  transform: scale(1.04);
+  transition: transform 0.15s ease;
 }
 
 /* Ô cửa sổ chứa bức ảnh trên thân đèn trời */
