@@ -26,7 +26,7 @@ Bất kỳ ai cũng có thể dễ dàng tạo ra một trang web riêng mang t�
 1. Đăng nhập tài khoản [GitHub](https://github.com/) của bạn.
 2. Bấm vào nút **"+"** (góc trên bên phải) -> Chọn **New repository**.
 3. Đặt tên kho (ví dụ: `Banhtrungthu` hoặc `Tang-Em`), chọn **Public** rồi bấm **Create repository**.
-4. Sao chép đường link repository của bạn (dạng: `https://github.com/<tai-khoan>/<ten-kho>.git`).
+4. Sao chép đường link repository của bạn (chấp nhận cả dạng SSH `git@github.com:...` lẫn HTTPS `https://github.com/...`).
 
 #### Bước 2: Tải mã nguồn về máy & thay đổi nội dung
 1. Tải toàn bộ mã nguồn dự án này về máy tính (bấm nút **Code** -> **Download ZIP** rồi giải nén).
@@ -34,9 +34,10 @@ Bất kỳ ai cũng có thể dễ dàng tạo ra một trang web riêng mang t�
 3. **Thêm ảnh**: Mở thư mục `anh/` và chép những bức ảnh kỷ niệm của hai bạn vào đó (chấp nhận mọi định dạng `.jpg`, `.png`, `.webp`...).
 
 #### Bước 3: Đẩy lên GitHub tự động
-1. Nhấp đúp chuột vào file **`DONG-BO-LEN-GITHUB.bat`**.
-2. Nếu là lần đầu tiên, màn hình sẽ yêu cầu dán link GitHub repository bạn đã tạo ở **Bước 1**. Dán vào và nhấn **Enter**.
+1. Dán link GitHub của bạn vào file **`github_repo.txt`** (hoặc để trống và dán khi chạy tool).
+2. Nhấp đúp chuột vào file **`DONG-BO-LEN-GITHUB.bat`**.
 3. Chương trình sẽ tự động đồng bộ ảnh, nội dung lên GitHub và hiển thị ngay đường link website của bạn!
+*(Mẹo: Bạn cũng có thể gửi link GitHub Repository trực tiếp cho AI trong khung chat để được đồng bộ tự động 100%)*
 
 ---
 
@@ -72,6 +73,7 @@ Sau khi mã nguồn đã được tải lên kho GitHub của bạn:
 Banhtrungthu/
 ├── noidung.txt              # NƠI SỬA LỜI CHÚC (Tên người yêu, thư chúc, lời nhắn đèn trời)
 ├── anh/                     # NƠI THẢ ẢNH KỶ NIỆM (Tự động nạp toàn bộ ảnh trong thư mục này)
+├── github_repo.txt          # NƠI ĐIỀN LINK GITHUB REPOSITORY CỦA BẠN (SSH hoặc HTTPS)
 ├── DONG-BO-LEN-GITHUB.bat   # 1-CLICK TỰ ĐỘNG ĐẨY LÊN GITHUB CỦA BẠN
 ├── audio/                   # Nhạc nền Trung Thu lãng mạn
 ├── index.html               # Cấu trúc giao diện chuẩn Mobile Viewport
