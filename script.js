@@ -68,6 +68,8 @@ async function loadConfigFromTxt() {
   await detectPhotosInAnhFolder();
 }
 
+let savedTxtCaptions = [];
+
 function parseNoidungTxt(text) {
   const sections = {};
   let currentSection = null;
@@ -96,9 +98,9 @@ function parseNoidungTxt(text) {
   }
 
   if (sections['LOI_NHAN_DEN_TROI'] && sections['LOI_NHAN_DEN_TROI'].length > 0) {
-    const captions = sections['LOI_NHAN_DEN_TROI'].map(c => c.trim()).filter(Boolean);
-    if (captions.length > 0) {
-      captions.forEach((cap, idx) => {
+    savedTxtCaptions = sections['LOI_NHAN_DEN_TROI'].map(c => c.trim()).filter(Boolean);
+    if (savedTxtCaptions.length > 0) {
+      savedTxtCaptions.forEach((cap, idx) => {
         if (CONFIG.photos[idx]) {
           CONFIG.photos[idx].caption = cap;
         }
@@ -116,17 +118,25 @@ async function detectPhotosInAnhFolder() {
     "Bên em mỗi ngày đều là một mùa trăng hạnh phúc 🌕",
     "Hẹn ước cùng em đi qua thật nhiều mùa Trung Thu nữa nhé! ❤️"
   ];
+  const activeCaptions = savedTxtCaptions.length > 0 ? savedTxtCaptions : defaultCaptions;
 
-  // Thử kiểm tra ảnh từ anh/1.jpg đến anh/25.jpg
+  // Thử kiểm tra ảnh từ anh/1 đến anh/50 (hỗ trợ .jpg, .png, .jpeg, .webp)
+  const exts = ['jpg', 'png', 'jpeg', 'webp'];
   const testPromises = [];
-  for (let i = 1; i <= 25; i++) {
+  for (let i = 1; i <= 50; i++) {
     testPromises.push(
       new Promise((resolve) => {
-        const img = new Image();
-        const url = `anh/${i}.jpg`;
-        img.onload = () => resolve({ url, index: i });
-        img.onerror = () => resolve(null);
-        img.src = url;
+        let extIdx = 0;
+        function tryNext() {
+          if (extIdx >= exts.length) return resolve(null);
+          const ext = exts[extIdx++];
+          const img = new Image();
+          const url = `anh/${i}.${ext}`;
+          img.onload = () => resolve({ url, index: i });
+          img.onerror = () => tryNext();
+          img.src = url;
+        }
+        tryNext();
       })
     );
   }
@@ -137,8 +147,7 @@ async function detectPhotosInAnhFolder() {
   if (validPhotos.length > 0) {
     validPhotos.sort((a, b) => a.index - b.index);
     CONFIG.photos = validPhotos.map((item, idx) => {
-      const existingCaption = CONFIG.photos[idx] && CONFIG.photos[idx].caption;
-      const caption = existingCaption || defaultCaptions[idx % defaultCaptions.length];
+      const caption = activeCaptions[idx % activeCaptions.length];
       return {
         url: item.url,
         caption: caption,
