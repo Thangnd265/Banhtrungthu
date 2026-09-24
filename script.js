@@ -285,8 +285,22 @@ function initLanterns() {
 }
 
 // ==========================================
-// 4. HIỆU ỨNG GÕ CHỮ LỜI CHÚC (STAGE 1)
+// 4. HIỆU ỨNG GÕ CHỮ LỜI CHÚC (STAGE 1) VỚI SAO LẤP LÁNH CUỐI CHỮ
 // ==========================================
+function createTypewriterSparkle(targetEl) {
+  if (!targetEl) return;
+  const sparkle = document.createElement('span');
+  sparkle.className = 'typewriter-floating-sparkle';
+  const symbols = ['✦', '✨', '⭐', '⋆'];
+  sparkle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+  const offsetX = (Math.random() * 20 - 10).toFixed(0);
+  const offsetY = (Math.random() * 14 - 7).toFixed(0);
+  sparkle.style.setProperty('--sparkle-ox', `${offsetX}px`);
+  sparkle.style.setProperty('--sparkle-oy', `${offsetY}px`);
+  targetEl.appendChild(sparkle);
+  setTimeout(() => sparkle.remove(), 800);
+}
+
 function playTypewriterGreeting(onComplete) {
   const titleEl = document.getElementById('recipient-title');
   const greetingEl = document.getElementById('greeting-text');
@@ -302,24 +316,31 @@ function playTypewriterGreeting(onComplete) {
 
   const fullText = CONFIG.openingGreeting;
   let index = 0;
-  greetingEl.innerHTML = '<span class="typewriter-cursor"></span>';
+  greetingEl.innerHTML = '<span class="typewriter-star-cursor"><span class="star-sparkle-core">✦</span></span>';
+  const cursor = greetingEl.querySelector('.typewriter-star-cursor');
 
   function typeChar() {
     if (index < fullText.length) {
       const char = fullText[index];
-      const cursor = greetingEl.querySelector('.typewriter-cursor');
       const textNode = document.createTextNode(char);
       greetingEl.insertBefore(textNode, cursor);
       index++;
 
-      // Tốc độ gõ nhanh hơn, mượt mà và thanh thoát
-      let delay = 18;
-      if (char === '.' || char === '!' || char === '?') delay = 130;
-      else if (char === ',' || char === '\n') delay = 80;
+      // Tỏa bụi sao lấp lánh ở cuối chỗ chữ hiện lên dần
+      if (index % 3 === 0 || char === ' ' || char === '\n') {
+        createTypewriterSparkle(cursor);
+      }
+
+      // Tốc độ gõ chữ chậm lại một chút theo yêu cầu (ấm áp, tự nhiên, sâu lắng)
+      let delay = 42;
+      if (char === '.' || char === '!' || char === '?') delay = 200;
+      else if (char === ',' || char === '\n') delay = 120;
+      else if (char === ' ') delay = 50;
 
       setTimeout(typeChar, delay);
     } else {
-      // Đã gõ xong toàn bộ
+      // Đã gõ xong toàn bộ: giữ sao sáng lung linh
+      if (cursor) cursor.classList.add('done');
       setTimeout(() => {
         if (onComplete) onComplete();
       }, CONFIG.greetingHoldTime);
@@ -338,13 +359,13 @@ let photoStreamIndex = 0;
 let activeFloatingPhotos = 0;
 let isAnimating = false;
 
-// Giới hạn số lượng đèn bay đồng thời để bầu trời thoáng đãng, thơ mộng
-const MAX_CONCURRENT_FLOATING_PHOTOS = 4;
+// Giới hạn số lượng đèn bay đồng thời để bầu trời thoáng đãng, thơ mộng (không có khoảng trống)
+const MAX_CONCURRENT_FLOATING_PHOTOS = 6;
 
 // Hệ thống 2 luồng bay rộng Trái - Phải độc lập so le chống đè lấn
 const LANES = [
-  { minLeft: 6,  maxLeft: 12, name: 'left' },
-  { minLeft: 52, maxLeft: 58, name: 'right' }
+  { minLeft: 6,  maxLeft: 14, name: 'left' },
+  { minLeft: 50, maxLeft: 58, name: 'right' }
 ];
 let currentLaneIndex = 0;
 
@@ -383,13 +404,14 @@ function startFloatingPhotos() {
   // Cài đặt sự kiện đóng modal ảnh khi chạm
   setupPhotoModal();
 
-  // Thả 2 đèn đầu tiên so le nhau
-  setTimeout(spawnFloatingPhoto, 400);
-  setTimeout(spawnFloatingPhoto, 2700);
+  // Thả các đèn ban đầu so le mượt mà để bầu trời lập tức có đèn lượn bay (không có khoảng trống)
+  setTimeout(spawnFloatingPhoto, 300);
+  setTimeout(spawnFloatingPhoto, 1600);
+  setTimeout(spawnFloatingPhoto, 3000);
 
-  // Định kỳ thả đèn trời tiếp theo với giãn cách hợp lý (4.6s) để không bị đè nhau
+  // Định kỳ thả liên tục mỗi 2.6s (vừa vặn, liên tục, không bị dày đặc)
   if (floatingPhotoTimer) clearInterval(floatingPhotoTimer);
-  floatingPhotoTimer = setInterval(spawnFloatingPhoto, 4600);
+  floatingPhotoTimer = setInterval(spawnFloatingPhoto, 2600);
 }
 
 // Hàm tương thích ngược với kịch bản cũ
@@ -483,10 +505,13 @@ function spawnFloatingPhoto() {
   container.appendChild(card);
   activeFloatingPhotos++;
 
-  // Dọn dẹp DOM khi ảnh đã bay hết khỏi màn hình
+  // Dọn dẹp DOM khi ảnh đã bay hết khỏi màn hình (chống trừ 2 lần)
+  let cleaned = false;
   const cleanCard = () => {
+    if (cleaned) return;
+    cleaned = true;
     card.remove();
-    activeFloatingPhotos--;
+    activeFloatingPhotos = Math.max(0, activeFloatingPhotos - 1);
   };
   card.addEventListener('animationend', cleanCard, { once: true });
   setTimeout(cleanCard, (parseFloat(duration) + 1) * 1000); // dự phòng

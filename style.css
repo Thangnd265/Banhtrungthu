@@ -372,7 +372,77 @@ html, body {
   font-weight: 400;
 }
 
-/* Typewriter blinking cursor */
+/* Hiệu ứng con trỏ ngôi sao lấp lánh và vệt sao tỏa sáng ở cuối chữ */
+.typewriter-star-cursor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-left: 6px;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.star-sparkle-core {
+  display: inline-block;
+  color: #ffe875;
+  font-size: 1.25em;
+  line-height: 1;
+  text-shadow: 
+    0 0 6px rgba(255, 235, 120, 0.95),
+    0 0 14px rgba(255, 190, 40, 0.85),
+    0 0 22px rgba(255, 140, 0, 0.6);
+  animation: starCoreTwinkle 0.85s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes starCoreTwinkle {
+  0% {
+    transform: scale(0.85) rotate(-12deg);
+    opacity: 0.8;
+    filter: drop-shadow(0 0 4px #ffd700);
+  }
+  100% {
+    transform: scale(1.3) rotate(18deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 20px #ffb300);
+  }
+}
+
+/* Đốm sao li ti bay lên và tan dần theo từng bước chữ xuất hiện */
+.typewriter-floating-sparkle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: 13px;
+  line-height: 1;
+  pointer-events: none;
+  color: #fff2a3;
+  text-shadow: 0 0 8px #ffd700;
+  animation: floatSparkleOut 0.8s ease-out forwards;
+}
+
+@keyframes floatSparkleOut {
+  0% {
+    transform: translate(calc(-50% + var(--sparkle-ox, 0px)), calc(-50% + var(--sparkle-oy, 0px))) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--sparkle-ox, 0px) * 2.2), calc(-50% - 28px)) scale(1.35) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+.typewriter-star-cursor.done .star-sparkle-core {
+  animation: starCoreGentle 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes starCoreGentle {
+  0% { transform: scale(1); opacity: 0.85; }
+  100% { transform: scale(1.18); opacity: 1; text-shadow: 0 0 15px rgba(255, 215, 0, 0.95); }
+}
+
+/* Typewriter blinking cursor fallback */
 .typewriter-cursor {
   display: inline-block;
   width: 2px;
