@@ -361,25 +361,41 @@ html, body {
 
 .greeting-content {
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--text-secondary);
   min-height: 110px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  white-space: pre-wrap;
+  text-align: center;
   font-weight: 400;
+  position: relative;
 }
 
-/* Hiệu ứng con trỏ ngôi sao lấp lánh và vệt sao tỏa sáng ở cuối chữ */
-.typewriter-star-cursor {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* Khung bọc văn bản và con trỏ sao để đảm bảo chung 1 dòng chảy inline tự nhiên xuống dòng */
+.greeting-text-flow {
+  display: inline-block;
+  max-width: 100%;
+  text-align: center;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.8;
   position: relative;
-  margin-left: 6px;
-  vertical-align: middle;
+}
+
+.typewriter-text-body {
+  display: inline;
+}
+
+/* Hiệu ứng con trỏ ngôi sao lấp lánh và vệt sao tỏa sáng ở cuối chữ (chạy theo từng dòng chữ) */
+.typewriter-star-cursor {
+  display: inline-block;
+  position: relative;
+  margin-left: 5px;
+  vertical-align: baseline;
+  white-space: nowrap;
+  line-height: 1;
   user-select: none;
 }
 

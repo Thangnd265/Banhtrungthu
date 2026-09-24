@@ -325,17 +325,22 @@ function playTypewriterGreeting(onComplete) {
 
   const fullText = CONFIG.openingGreeting;
   let index = 0;
-  greetingEl.innerHTML = '<span class="typewriter-star-cursor"><span class="star-sparkle-core">✦</span></span>';
+  greetingEl.innerHTML = `
+    <div class="greeting-text-flow">
+      <span class="typewriter-text-body"></span>
+      <span class="typewriter-star-cursor"><span class="star-sparkle-core">✦</span></span>
+    </div>
+  `;
+  const textBody = greetingEl.querySelector('.typewriter-text-body');
   const cursor = greetingEl.querySelector('.typewriter-star-cursor');
 
   function typeChar() {
     if (index < fullText.length) {
       const char = fullText[index];
-      const textNode = document.createTextNode(char);
-      greetingEl.insertBefore(textNode, cursor);
+      textBody.textContent += char;
       index++;
 
-      // Tỏa bụi sao lấp lánh ở cuối chỗ chữ hiện lên dần
+      // Tỏa bụi sao lấp lánh ở cuối chỗ chữ hiện lên dần (xuống dòng theo chữ)
       if (index % 3 === 0 || char === ' ' || char === '\n') {
         createTypewriterSparkle(cursor);
       }
