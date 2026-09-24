@@ -107,10 +107,8 @@ echo 1. Đang chuẩn bị các tệp nội dung...
 "!GIT_CMD!" add .
 
 echo 2. Đang tạo commit lưu nội dung mới...
-"!GIT_CMD!" commit -m "Cập nhật ảnh và lời chúc Trung Thu mới" >nul 2>&1
-
-echo 3. Đang đẩy dữ liệu lên GitHub (!CURRENT_REPO!)...
-"!GIT_CMD!" push -u origin main || git push origin main
+rem Thực hiện lệnh git push lên nhánh main
+"!GIT_CMD!" push -u origin main
 if !errorlevel! equ 0 goto :push_success
 
 rem Tự động chuyển SSH sang HTTPS nếu thiếu SSH key
@@ -124,7 +122,7 @@ if !errorlevel! equ 0 (
         set "FALLBACK_HTTPS=https://github.com/%%a/%%b.git"
     )
     "!GIT_CMD!" remote set-url origin "!FALLBACK_HTTPS!"
-    "!GIT_CMD!" push -u origin main || git push origin main
+    "!GIT_CMD!" push -u origin main
     if !errorlevel! equ 0 (
         set "CURRENT_REPO=!FALLBACK_HTTPS!"
         echo !FALLBACK_HTTPS!> "github_repo.txt"
