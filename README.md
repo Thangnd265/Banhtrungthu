@@ -1,49 +1,87 @@
-# 🌕 Banhtrungthu - Thiệp Chúc Trung Thu Người Yêu (Mobile-First) 🏮
+# 🌕 Banhtrungthu - Thiệp Chúc Trung Thu Tặng Người Yêu (Mobile-First) 🏮
 
-Một trang web chúc Tết Trung Thu lãng mạn dành riêng cho người yêu, tối ưu hiển thị 100% trên điện thoại di động với hiệu ứng động chạy liên tục và tự động phát nhạc.
+Một trang web chúc Tết Trung Thu lung linh và lãng mạn dành riêng cho người yêu, tối ưu 100% cho màn hình điện thoại (dọc 9:16) với hiệu ứng đèn trời kỷ niệm bay lên theo chiều sâu xa - gần và nhạc nền du dương.
 
-![Demo](images/sample1.jpg)
+Bất kỳ ai cũng có thể dễ dàng tạo ra một trang web riêng mang tên mình và người yêu để gửi tặng, chỉ mất **3 phút** mà **không cần biết lập trình**!
 
-## ✨ Tính Năng Nổi Bật
+---
 
-- 🌕 **Không gian đêm trăng lãng mạn**: Vầng trăng rằm phát sáng, đom đóm vàng lượn quanh và bầu trời ngàn sao lấp lánh (Canvas 60fps).
-- ✍️ **Lời chúc gõ chữ tự động (Typewriter)**: Lời chúc mở đầu xuất hiện nhanh, mượt mà và sâu lắng.
-- 🏮 **Đèn Trời Kỷ Niệm (Sky Lantern)**: Các bức ảnh kỷ niệm bay lên như những chiếc đèn trời lung linh với ngọn nến nhấp nháy chân thực.
-- 🌌 **Chiều sâu 3 tầng xa - gần**: Đèn trời ở xa nhỏ mờ dịu, đèn ở gần to sáng rực rỡ kèm dây tua rua may mắn đung đưa.
-- 🛡️ **Hệ thống phân 3 làn bay độc lập**: Chống va chạm, đèn bay so le thoáng đãng và không bao giờ bị đè lấn lên nhau.
-- 🔍 **Xem ảnh phóng to (Lightbox)**: Chạm vào bất kỳ chiếc đèn trời nào (dù ở xa hay gần) để phóng to ngắm nhìn rõ nét.
-- 🎵 **Tự động phát nhạc (Smart Autoplay)**: Tự động kích hoạt giai điệu Trung thu lãng mạn ngay khi vào trang, kèm nút đĩa xoay góc màn hình.
+## ✨ Điểm Nổi Bật
 
-## 📁 Cấu Trúc Dự Án
+- 🌕 **Không gian trăng rằm ấm áp**: Vầng trăng phát sáng, bầu trời ngàn sao lung linh và đom đóm vàng lượn quanh (Canvas 60fps mượt mà).
+- ✍️ **Lời chúc gõ chữ tự động (Typewriter)**: Tên người yêu và lời chúc tình cảm xuất hiện từng ký tự sâu lắng.
+- 🏮 **Đèn Trời Kỷ Niệm (Sky Lantern)**: Các bức ảnh kỷ niệm bay lên như những chiếc đèn trời lung linh với ánh nến nhấp nháy, vành tre và dây tua rua đỏ may mắn.
+- 🌌 **Độ sâu 3 tầng xa - gần**: Đèn bay thẳng đứng tự nhiên, chia 2 luồng Trái - Phải so le, không bao giờ bị đè lấn lên nhau.
+- 🔍 **Xem ảnh phóng to (Lightbox)**: Chạm nhẹ vào bất kỳ chiếc đèn trời nào để mở xem ảnh rõ nét kèm lời nhắn gửi.
+- 🎵 **Tự động phát nhạc (Smart Autoplay)**: Tự động kích hoạt giai điệu Trung Thu ngọt ngào kèm nút đĩa xoay bật/tắt tiện lợi.
+- ⚡ **Tùy chỉnh siêu đơn giản**: Chỉ cần sửa file text `noidung.txt` và chép ảnh vào thư mục `anh/`.
+
+---
+
+## 🚀 Hướng Dẫn Sử Dụng (Dành Cho Mọi Người)
+
+### 👉 Cách 1: Tải Về Máy Tính & Đồng Bộ 1-Click (Khuyên Dùng)
+
+#### Bước 1: Chuẩn bị kho GitHub của bạn
+1. Đăng nhập tài khoản [GitHub](https://github.com/) của bạn.
+2. Bấm vào nút **"+"** (góc trên bên phải) -> Chọn **New repository**.
+3. Đặt tên kho (ví dụ: `Banhtrungthu` hoặc `Tang-Em`), chọn **Public** rồi bấm **Create repository**.
+4. Sao chép đường link repository của bạn (dạng: `https://github.com/<tai-khoan>/<ten-kho>.git`).
+
+#### Bước 2: Tải mã nguồn về máy & thay đổi nội dung
+1. Tải toàn bộ mã nguồn dự án này về máy tính (bấm nút **Code** -> **Download ZIP** rồi giải nén).
+2. **Sửa lời chúc**: Mở file `noidung.txt` và nhập tên người yêu cùng lời chúc của bạn -> Bấm `Ctrl + S` để lưu.
+3. **Thêm ảnh**: Mở thư mục `anh/` và chép những bức ảnh kỷ niệm của hai bạn vào đó (chấp nhận mọi định dạng `.jpg`, `.png`, `.webp`...).
+
+#### Bước 3: Đẩy lên GitHub tự động
+1. Nhấp đúp chuột vào file **`DONG-BO-LEN-GITHUB.bat`**.
+2. Nếu là lần đầu tiên, màn hình sẽ yêu cầu dán link GitHub repository bạn đã tạo ở **Bước 1**. Dán vào và nhấn **Enter**.
+3. Chương trình sẽ tự động đồng bộ ảnh, nội dung lên GitHub và hiển thị ngay đường link website của bạn!
+
+---
+
+### 👉 Cách 2: Fork / Dùng Trực Tiếp Trên Trình Duyệt
+
+1. Bấm nút **Fork** (hoặc **Use this template**) ở góc trên bên phải trang repository này để nhân bản về tài khoản của bạn.
+2. Chỉnh sửa file `noidung.txt` trực tiếp trên web GitHub.
+3. Vào thư mục `anh/`, bấm **Add file** -> **Upload files** để tải ảnh của bạn lên.
+4. Bấm **Commit changes** để lưu lại.
+
+---
+
+## 🌐 Kích Hoạt GitHub Pages (Để Có Link Gửi Người Yêu)
+
+Sau khi mã nguồn đã được tải lên kho GitHub của bạn:
+
+1. Mở kho GitHub của bạn trên trình duyệt, chọn thẻ **Settings** (Cài đặt) -> Chọn mục **Pages** ở menu bên trái.
+2. Tại mục **Build and deployment** -> **Branch**:
+   - Chọn nhánh **`main`** (hoặc `master`).
+   - Chọn thư mục **`/(root)`**.
+   - Bấm nút **Save**.
+3. Đợi khoảng **1 - 2 phút**, GitHub sẽ tạo cho bạn một đường link website trực tiếp:
+   ```text
+   👉 https://<tai-khoan-cua-ban>.github.io/<ten-kho>/
+   ```
+4. Gửi đường link này cho người yêu của bạn mở trên điện thoại và tận hưởng bất ngờ! 💖
+
+---
+
+## 📁 Cấu Trúc Thư Mục
 
 ```text
 Banhtrungthu/
-├── index.html        # Khung giao diện HTML5 chuẩn mobile
-├── style.css         # Styling, animation GPU và hiệu ứng đèn trời
-├── script.js         # Kịch bản gõ chữ, phân làn bay và autoplay nhạc
-├── images/           # Thư mục chứa ảnh kỷ niệm
-└── audio/            # File âm thanh nhạc nền
+├── noidung.txt              # NƠI SỬA LỜI CHÚC (Tên người yêu, thư chúc, lời nhắn đèn trời)
+├── anh/                     # NƠI THẢ ẢNH KỶ NIỆM (Tự động nạp toàn bộ ảnh trong thư mục này)
+├── DONG-BO-LEN-GITHUB.bat   # 1-CLICK TỰ ĐỘNG ĐẨY LÊN GITHUB CỦA BẠN
+├── audio/                   # Nhạc nền Trung Thu lãng mạn
+├── index.html               # Cấu trúc giao diện chuẩn Mobile Viewport
+├── style.css                # Hiệu ứng đèn trời, trăng rằm và hoạt họa CSS
+└── script.js                # Logic kịch bản gõ chữ, thả đèn lồng & phát nhạc
 ```
 
-## 🛠️ Tùy Chỉnh Lời Chúc & Ảnh (Trong `script.js`)
+---
 
-Chỉ cần mở `script.js` và chỉnh sửa biến `CONFIG` ở ngay đầu tệp:
-
-```javascript
-const CONFIG = {
-  recipientName: "Bé Yêu Của Anh 💕",
-  openingGreeting: "Chúc em một mùa Trung Thu thật ấm áp...",
-  photos: [
-    { url: "images/sample1.jpg", caption: "Lời nhắn 1", date: "Đêm Rằm Tháng 8" },
-    { url: "images/sample2.jpg", caption: "Lời nhắn 2", date: "Hội An Hoài Niệm" }
-  ],
-  musicUrl: "audio/mid-autumn-love.mp3"
-};
-```
-
-## 🚀 Kích Hoạt GitHub Pages (Để có link web gửi người yêu)
-
-1. Vào repository **Banhtrungthu** trên GitHub.
-2. Chọn **Settings** -> **Pages**.
-3. Tại mục **Branch**, chọn `main` (hoặc `master`) và thư mục `/(root)`, sau đó bấm **Save**.
-4. Chờ 1 phút, bạn sẽ có đường link trực tiếp dạng: `https://<ten-tai-khoan>.github.io/Banhtrungthu/` để gửi cho người yêu mở xem trên điện thoại!
+## 💡 Mẹo Nhỏ
+- Bạn có thể thay đổi bài hát bằng cách chép file nhạc của bạn vào thư mục `audio/mid-autumn-love.mp3`.
+- Khi người yêu mở web trên điện thoại, chạm vào màn hình bất kỳ đâu để bài hát tự động phát ngân vang.
+- Chạm vào từng chiếc đèn trời đang bay để xem bức ảnh phóng to rõ nét nhất!
