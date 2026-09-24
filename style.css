@@ -365,9 +365,7 @@ html, body {
   color: var(--text-secondary);
   min-height: 110px;
   margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   text-align: center;
   font-weight: 400;
   position: relative;
@@ -375,13 +373,11 @@ html, body {
 
 /* Khung bọc văn bản và con trỏ sao để đảm bảo chung 1 dòng chảy inline tự nhiên xuống dòng */
 .greeting-text-flow {
-  display: inline-block;
-  max-width: 100%;
+  display: inline;
   text-align: center;
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.8;
-  position: relative;
 }
 
 .typewriter-text-body {
@@ -392,8 +388,8 @@ html, body {
 .typewriter-star-cursor {
   display: inline-block;
   position: relative;
-  margin-left: 5px;
-  vertical-align: baseline;
+  margin-left: 4px;
+  vertical-align: middle;
   white-space: nowrap;
   line-height: 1;
   user-select: none;

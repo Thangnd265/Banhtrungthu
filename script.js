@@ -300,14 +300,14 @@ function createTypewriterSparkle(targetEl) {
   if (!targetEl) return;
   const sparkle = document.createElement('span');
   sparkle.className = 'typewriter-floating-sparkle';
-  const symbols = ['✦', '✨', '⭐', '⋆'];
+  const symbols = ['✦', '✨', '⋆'];
   sparkle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-  const offsetX = (Math.random() * 20 - 10).toFixed(0);
-  const offsetY = (Math.random() * 14 - 7).toFixed(0);
+  const offsetX = (Math.random() * 12 - 6).toFixed(0);
+  const offsetY = (Math.random() * 8 - 4).toFixed(0);
   sparkle.style.setProperty('--sparkle-ox', `${offsetX}px`);
   sparkle.style.setProperty('--sparkle-oy', `${offsetY}px`);
   targetEl.appendChild(sparkle);
-  setTimeout(() => sparkle.remove(), 800);
+  setTimeout(() => sparkle.remove(), 550);
 }
 
 function playTypewriterGreeting(onComplete) {
@@ -323,14 +323,9 @@ function playTypewriterGreeting(onComplete) {
     return;
   }
 
-  const fullText = CONFIG.openingGreeting;
+  const fullText = (CONFIG.openingGreeting || "").trim();
   let index = 0;
-  greetingEl.innerHTML = `
-    <div class="greeting-text-flow">
-      <span class="typewriter-text-body"></span>
-      <span class="typewriter-star-cursor"><span class="star-sparkle-core">✦</span></span>
-    </div>
-  `;
+  greetingEl.innerHTML = '<span class="greeting-text-flow"><span class="typewriter-text-body"></span><span class="typewriter-star-cursor"><span class="star-sparkle-core">✦</span></span></span>';
   const textBody = greetingEl.querySelector('.typewriter-text-body');
   const cursor = greetingEl.querySelector('.typewriter-star-cursor');
 
@@ -340,8 +335,8 @@ function playTypewriterGreeting(onComplete) {
       textBody.textContent += char;
       index++;
 
-      // Tỏa bụi sao lấp lánh ở cuối chỗ chữ hiện lên dần (xuống dòng theo chữ)
-      if (index % 3 === 0 || char === ' ' || char === '\n') {
+      // Tỏa bụi sao lấp lánh nhẹ nhàng ở cuối chỗ chữ hiện lên dần (không tạo khi gặp dấu cách hay xuống dòng)
+      if (index % 4 === 0 && char !== ' ' && char !== '\n') {
         createTypewriterSparkle(cursor);
       }
 
