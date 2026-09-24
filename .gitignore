@@ -1,0 +1,6 @@
+# Temporary & tests
+tests/
+.superpowers/
+docs/superpowers/
+__pycache__/
+*.pyc

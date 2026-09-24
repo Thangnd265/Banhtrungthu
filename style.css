@@ -1,0 +1,945 @@
+/* ==========================================================================
+   MID-AUTUMN ROMANTIC GREETING - MOBILE FIRST STYLES
+   ========================================================================== */
+
+:root {
+  --bg-deep-night: #060914;
+  --bg-night-purple: #130f26;
+  --moon-gold-light: #fff5cc;
+  --moon-gold-core: #ffd27d;
+  --moon-glow-color: rgba(255, 218, 128, 0.6);
+  --lantern-red: #ff3b30;
+  --lantern-gold: #ff9500;
+  --lantern-glow: rgba(255, 87, 34, 0.7);
+  --glass-bg: rgba(16, 21, 40, 0.72);
+  --glass-border: rgba(255, 215, 0, 0.35);
+  --glass-glow: rgba(255, 215, 0, 0.15);
+  --text-primary: #ffffff;
+  --text-secondary: #f3e5c8;
+  --text-muted: #d0c8b6;
+  --font-handwriting: 'Dancing Script', cursive;
+  --font-sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  --safe-top: env(safe-area-inset-top, 16px);
+  --safe-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+/* Base Reset & Mobile Lock */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 20%, var(--bg-night-purple) 0%, var(--bg-deep-night) 75%);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  position: relative;
+}
+
+/* Background Night Sky Canvas */
+#sky-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Full Moon & Moonlight Glow */
+#moon {
+  position: absolute;
+  top: calc(var(--safe-top) + 20px);
+  right: 24px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--moon-gold-light), var(--moon-gold-core) 70%, #d4a047 100%);
+  box-shadow: 
+    0 0 25px rgba(255, 245, 204, 0.8),
+    0 0 50px var(--moon-glow-color),
+    0 0 100px rgba(255, 179, 0, 0.35);
+  z-index: 2;
+  animation: moonBreathing 5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.moon-crater {
+  position: absolute;
+  background: rgba(184, 134, 11, 0.15);
+  border-radius: 50%;
+}
+.moon-crater.c1 { width: 18px; height: 18px; top: 22px; left: 30px; }
+.moon-crater.c2 { width: 24px; height: 15px; top: 48px; left: 45px; }
+.moon-crater.c3 { width: 12px; height: 12px; top: 58px; left: 22px; }
+
+@keyframes moonBreathing {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 25px rgba(255, 245, 204, 0.7), 0 0 50px var(--moon-glow-color);
+  }
+  100% {
+    transform: scale(1.04);
+    box-shadow: 0 0 35px rgba(255, 245, 204, 0.95), 0 0 75px rgba(255, 200, 80, 0.65), 0 0 120px rgba(255, 160, 0, 0.4);
+  }
+}
+
+/* Floating Lanterns Container & Style */
+#lanterns-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.lantern {
+  position: absolute;
+  bottom: -90px;
+  will-change: transform, opacity;
+  animation: floatLantern linear infinite;
+}
+
+.lantern-body {
+  width: 34px;
+  height: 44px;
+  border-radius: 12px 12px 10px 10px;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b, #ff9800);
+  box-shadow: 0 0 18px var(--lantern-glow), inset 0 0 12px rgba(255, 255, 200, 0.85);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lantern-rib {
+  width: 80%;
+  height: 100%;
+  border-left: 1px dashed rgba(255, 255, 255, 0.5);
+  border-right: 1px dashed rgba(255, 255, 255, 0.5);
+}
+
+.lantern-tassel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 22px;
+  background: #ffc107;
+  box-shadow: 0 0 6px #ffeb3b;
+  transform-origin: top center;
+  animation: tasselSway 2s ease-in-out infinite alternate;
+}
+
+@keyframes floatLantern {
+  0% {
+    transform: translateY(0) translateX(0) scale(var(--scale, 1));
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-115vh) translateX(var(--drift-x, 30px)) scale(var(--scale, 1));
+    opacity: 0;
+  }
+}
+
+@keyframes tasselSway {
+  0% { transform: translateX(-50%) rotate(-12deg); }
+  100% { transform: translateX(-50%) rotate(12deg); }
+}
+
+/* Floating Clouds */
+.cloud-layer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(to top, rgba(6, 9, 20, 0.85), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Music Controller */
+.music-controller {
+  position: fixed;
+  top: calc(var(--safe-top) + 12px);
+  left: 20px;
+  z-index: 100;
+  background: rgba(20, 24, 45, 0.8);
+  border: 1.5px solid var(--glass-border);
+  padding: 6px 12px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 12px var(--glass-glow);
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.music-controller:active {
+  transform: scale(0.92);
+}
+
+.disk-spinner {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ffd700;
+  animation: diskSpin 3.5s linear infinite;
+  animation-play-state: paused;
+}
+
+.music-controller.active .disk-spinner {
+  animation-play-state: running;
+}
+
+.music-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+@keyframes diskSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.sound-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 14px;
+}
+
+.sound-wave span {
+  width: 3px;
+  height: 4px;
+  background: #ffd700;
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+.music-controller.active .sound-wave span:nth-child(1) { animation: wave 0.8s ease-in-out infinite 0.1s; }
+.music-controller.active .sound-wave span:nth-child(2) { animation: wave 0.8s ease-in-out infinite 0.3s; }
+.music-controller.active .sound-wave span:nth-child(3) { animation: wave 0.8s ease-in-out infinite 0.2s; }
+.music-controller.active .sound-wave span:nth-child(4) { animation: wave 0.8s ease-in-out infinite 0.4s; }
+
+@keyframes wave {
+  0%, 100% { height: 4px; }
+  50% { height: 14px; }
+}
+
+/* Main Mobile Application Container */
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: calc(var(--safe-top) + 80px) 20px calc(var(--safe-bottom) + 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Stage Sections Switcher */
+.stage-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.96);
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.9s;
+  pointer-events: none;
+}
+
+.stage-section.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Glassmorphism Greeting Card (Stage 1) */
+.glass-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.55),
+    0 0 25px var(--glass-glow),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 28px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.recipient-title {
+  font-family: var(--font-handwriting);
+  font-size: 38px;
+  font-weight: 700;
+  color: #fff9e6;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.divider-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #ffd700;
+  margin-bottom: 18px;
+}
+
+.divider-line span.star-icon {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.divider-line span.lantern-icon {
+  font-size: 18px;
+  filter: drop-shadow(0 0 6px #ff5722);
+}
+
+.greeting-content {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  min-height: 110px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: pre-wrap;
+  font-weight: 400;
+}
+
+/* Typewriter blinking cursor */
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background: #ffd700;
+  margin-left: 4px;
+  vertical-align: text-bottom;
+  animation: cursorBlink 0.8s infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.card-footer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.heart-pulse {
+  font-size: 26px;
+  animation: heartPulse 1.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 59, 48, 0.8));
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+}
+
+.sub-hint {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   STAGE 2: CONTINUOUS PHOTO SHOWCASE (POLAROID CARDS)
+   ========================================================================== */
+
+#gallery-stage {
+  padding-top: calc(var(--safe-top) + 60px);
+  padding-bottom: calc(var(--safe-bottom) + 20px);
+}
+
+.gallery-progress-bar {
+  width: 90%;
+  max-width: 340px;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  z-index: 10;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-segment-fill {
+  height: 100%;
+  width: 0%;
+  background: #ffd700;
+  box-shadow: 0 0 8px #ffd700;
+  transition: width 0.1s linear;
+}
+
+.polaroid-wrapper {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  justify-content: center;
+  perspective: 1000px;
+  touch-action: pan-y;
+}
+
+.polaroid-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 14px 20px;
+  box-shadow: 
+    0 16px 40px rgba(0, 0, 0, 0.65),
+    0 0 25px rgba(255, 215, 0, 0.25);
+  transform: rotate(var(--rotation, 0deg));
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.photo-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.photo-img-box {
+  width: 100%;
+  height: 330px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background: #111;
+}
+
+.photo-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform-origin: center center;
+}
+
+/* Ken Burns Zoom Effect */
+.ken-burns {
+  animation: kenBurns 5s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes kenBurns {
+  0% {
+    transform: scale(1.02) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.12) translate(-1%, -1%);
+  }
+}
+
+.photo-caption-box {
+  padding-top: 14px;
+  text-align: center;
+}
+
+.photo-caption {
+  font-family: var(--font-handwriting);
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c2523;
+  line-height: 1.3;
+  min-height: 34px;
+}
+
+.photo-date {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8c827a;
+  margin-top: 4px;
+}
+
+.gallery-hint {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--moon-gold-light);
+  opacity: 0.85;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* Card slide-out / slide-in animations */
+.slide-exit-left {
+  animation: slideOutLeft 0.55s forwards cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-exit-right {
+  animation: slideOutRight 0.55s forwards cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-enter-right {
+  animation: slideInRight 0.55s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.slide-enter-left {
+  animation: slideInLeft 0.55s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes slideOutLeft {
+  to {
+    transform: translateX(-120%) rotate(-12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes slideOutRight {
+  to {
+    transform: translateX(120%) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%) rotate(10deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) rotate(var(--rotation, 0deg));
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%) rotate(-10deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) rotate(var(--rotation, 0deg));
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   FLOATING PHOTOS WITH MULTI-LAYER DEPTH (BAY LÊN NHƯ ĐÈN LỒNG)
+   ========================================================================== */
+
+.stream-banner {
+  position: absolute;
+  top: calc(var(--safe-top) + 16px);
+  z-index: 50;
+  pointer-events: none;
+  animation: fadeInDown 1s ease-out;
+}
+
+.banner-tag {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffd700;
+  background: rgba(16, 21, 40, 0.78);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 6px 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 12px rgba(255, 215, 0, 0.2);
+  letter-spacing: 0.5px;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.floating-photos-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   TEMPLATE ĐÈN TRỜI (SKY LANTERN) KỶ NIỆM
+   ========================================================================== */
+
+.floating-photo {
+  position: absolute;
+  bottom: -360px;
+  cursor: pointer;
+  pointer-events: auto;
+  will-change: transform, opacity;
+  animation: floatPhotoUp linear infinite;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.sky-lantern {
+  border-radius: 28px 28px 12px 12px;
+  background: linear-gradient(180deg, #fff5d6 0%, #ffc55c 55%, #ff6b10 100%);
+  border: 1.5px solid rgba(255, 230, 140, 0.85);
+  box-shadow: 
+    0 0 25px rgba(255, 185, 50, 0.7), 
+    0 0 55px rgba(255, 80, 0, 0.45), 
+    inset 0 3px 6px rgba(255, 255, 255, 0.8);
+  position: absolute;
+}
+
+/* Vùng cảm ứng chạm mở rộng trên màn hình điện thoại */
+.touch-target::before {
+  content: '';
+  position: absolute;
+  top: -24px;
+  bottom: -24px;
+  left: -24px;
+  right: -24px;
+  z-index: 99;
+  cursor: pointer;
+}
+
+.floating-photo:active {
+  transform: scale(1.08) !important;
+  filter: brightness(1.2);
+}
+
+/* Ô cửa sổ chứa bức ảnh trên thân đèn trời */
+.floating-photo-img-box {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #1a0f08;
+  border: 1.5px solid rgba(255, 240, 180, 0.9);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.floating-photo-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.floating-photo-meta {
+  text-align: center;
+  overflow: hidden;
+  padding-bottom: 6px;
+}
+
+.floating-photo-caption {
+  font-family: var(--font-handwriting);
+  font-weight: 700;
+  color: #4a1505;
+  text-shadow: 0 1px 1px rgba(255, 235, 170, 0.9);
+  line-height: 1.25;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.floating-photo-date {
+  font-size: 10px;
+  font-weight: 700;
+  color: #63230a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Vành nan tre ở đáy đèn trời */
+.lantern-rim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #5d2508;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Ngọn nến phát sáng lung linh ở tâm đáy đèn trời */
+.lantern-flame {
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15px;
+  height: 20px;
+  background: radial-gradient(circle at 50% 80%, #ffffff 0%, #fff176 35%, #ff5722 80%, transparent 100%);
+  border-radius: 50% 50% 35% 35% / 60% 60% 40% 40%;
+  box-shadow: 0 0 14px #ff9800, 0 0 26px rgba(255, 152, 0, 0.9);
+  animation: flameFlicker 0.45s ease-in-out infinite alternate;
+  z-index: 5;
+  pointer-events: none;
+}
+
+@keyframes flameFlicker {
+  0% {
+    transform: translateX(-50%) scale(0.92) rotate(-2deg);
+    filter: brightness(0.95);
+  }
+  100% {
+    transform: translateX(-50%) scale(1.1) rotate(2deg);
+    filter: brightness(1.25);
+  }
+}
+
+/* Dây tua rua đỏ may mắn */
+.floating-photo-tassel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 18px;
+  background: #d63031;
+  box-shadow: 0 0 6px #ff7675;
+  transform-origin: top center;
+  animation: tasselSway 2.2s ease-in-out infinite alternate;
+}
+
+/* ĐỘ SÂU 1: TẦNG XA (FAR) - Nhỏ xinh, trôi êm đềm ở xa */
+.photo-depth-far {
+  width: 125px;
+  padding: 8px 8px 12px;
+  opacity: 0.72;
+  filter: blur(0.4px);
+  z-index: 20;
+}
+.photo-depth-far .floating-photo-img-box {
+  height: 110px;
+}
+.photo-depth-far .floating-photo-caption {
+  font-size: 14.5px;
+  padding-top: 5px;
+}
+.photo-depth-far .floating-photo-date {
+  display: none;
+}
+
+/* ĐỘ SÂU 2: TẦNG TRUNG (MID) - Vừa vặn, ánh lửa ấm */
+.photo-depth-mid {
+  width: 180px;
+  padding: 10px 10px 16px;
+  opacity: 0.9;
+  filter: none;
+  z-index: 30;
+}
+.photo-depth-mid .floating-photo-img-box {
+  height: 165px;
+}
+.photo-depth-mid .floating-photo-caption {
+  font-size: 18.5px;
+  padding-top: 7px;
+}
+.photo-depth-mid .floating-photo-date {
+  font-size: 9.5px;
+  margin-top: 2px;
+}
+
+/* ĐỘ SÂU 3: TẦNG GẦN (NEAR) - To, rực rỡ, chi tiết sắc nét */
+.photo-depth-near {
+  width: 240px;
+  padding: 12px 12px 20px;
+  opacity: 1.0;
+  filter: none;
+  box-shadow: 
+    0 0 35px rgba(255, 190, 60, 0.85), 
+    0 0 75px rgba(255, 90, 10, 0.6),
+    0 18px 45px rgba(0, 0, 0, 0.7);
+  z-index: 40;
+}
+.photo-depth-near .floating-photo-img-box {
+  height: 220px;
+}
+.photo-depth-near .floating-photo-caption {
+  font-size: 22px;
+  padding-top: 8px;
+}
+.photo-depth-near .floating-photo-date {
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+/* Keyframe bay lên như đèn trời có lắc lư nhẹ nhàng */
+@keyframes floatPhotoUp {
+  0% {
+    transform: translateY(0) translateX(0) rotate(var(--rot, 0deg));
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--target-opacity, 0.9);
+  }
+  85% {
+    opacity: var(--target-opacity, 0.9);
+  }
+  100% {
+    transform: translateY(calc(-100vh - 440px)) translateX(var(--drift-x, 25px)) rotate(calc(var(--rot, 0deg) + 6deg));
+    opacity: 0;
+  }
+}
+
+/* Modal Phóng To Ảnh Khi Chạm */
+.photo-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(4, 7, 18, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.photo-modal.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-card {
+  max-width: 330px;
+  transform: scale(0.85);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.photo-modal.active .modal-card {
+  transform: scale(1);
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ff4757;
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-hint {
+  position: absolute;
+  bottom: calc(var(--safe-bottom) + 12px);
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* Responsiveness for Small Screens (< 360px) */
+@media (max-width: 360px) {
+  .recipient-title { font-size: 32px; }
+  .greeting-content { font-size: 14.5px; }
+  .photo-img-box { height: 280px; }
+  .photo-caption { font-size: 21px; }
+  #moon { width: 75px; height: 75px; }
+  .photo-depth-near { width: 200px; }
+  .photo-depth-near .floating-photo-img-box { height: 180px; }
+  .photo-depth-mid { width: 150px; }
+  .photo-depth-mid .floating-photo-img-box { height: 135px; }
+}
+
+/* Tall screen enhancement (aspect ratio 19.5:9 or taller) */
+@media (min-height: 820px) {
+  .photo-img-box { height: 380px; }
+  .glass-card { padding: 36px 28px; }
+  .greeting-content { font-size: 17px; min-height: 130px; }
+}
+

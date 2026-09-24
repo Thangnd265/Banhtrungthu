@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Chúc Mừng Trung Thu Em Yêu 🌕🏮</title>
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Night Sky Canvas -->
+  <canvas id="sky-canvas"></canvas>
+
+  <!-- Glowing Full Moon -->
+  <div id="moon" class="moon-glow" aria-label="Vầng trăng rằm">
+    <div class="moon-crater c1"></div>
+    <div class="moon-crater c2"></div>
+    <div class="moon-crater c3"></div>
+  </div>
+
+  <!-- Floating Lanterns Container -->
+  <div id="lanterns-container" aria-hidden="true"></div>
+
+  <!-- Floating Clouds & Atmosphere -->
+  <div class="cloud-layer" aria-hidden="true"></div>
+
+  <!-- Music Controller -->
+  <button id="music-btn" class="music-controller active" title="Bật/Tắt nhạc nền" aria-label="Bật hoặc tắt nhạc nền">
+    <div class="disk-spinner">
+      <span class="music-icon">🎵</span>
+    </div>
+    <div class="sound-wave">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </button>
+  <audio id="bgm-audio" src="audio/mid-autumn-love.mp3" preload="auto" loop></audio>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- STAGE 1: Greeting Wishes Stage -->
+    <section id="greeting-stage" class="stage-section active">
+      <div class="glass-card greeting-card">
+        <div class="card-badge">🌕 Trung Thu Yêu Thương 🏮</div>
+        <h1 id="recipient-title" class="recipient-title">Gửi Bé Yêu</h1>
+        
+        <div class="divider-line">
+          <span class="star-icon">✦</span>
+          <span class="lantern-icon">🏮</span>
+          <span class="star-icon">✦</span>
+        </div>
+
+        <div id="greeting-text" class="greeting-content typewriter-text"></div>
+
+        <div class="card-footer">
+          <div class="heart-pulse">❤️</div>
+          <p class="sub-hint">Mùa trăng trọn vẹn dành riêng cho em</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 2: Continuous Floating Photo Showcase Stage -->
+    <section id="gallery-stage" class="stage-section">
+      <!-- Floating Stream Banner -->
+      <div class="stream-banner">
+        <span class="banner-tag">🏮 Đèn Trời Kỷ Niệm Thắp Sáng Mùa Trăng 🌕</span>
+      </div>
+
+      <!-- Container chứa các bức ảnh bay lên như lồng đèn -->
+      <div id="floating-photos-container" class="floating-photos-container"></div>
+
+      <!-- Navigation / Touch guidance -->
+      <div class="gallery-hint floating-hint">
+        <span>✨ Chạm vào chiếc đèn trời bất kỳ để xem cận cảnh ✨</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Khung modal xem ảnh phóng to khi chạm vào đèn trời đang bay (đặt ngoài main để z-index tối đa) -->
+  <div id="photo-modal" class="photo-modal" role="dialog" aria-modal="true" aria-label="Xem ảnh phóng to">
+    <div id="photo-card" class="polaroid-card modal-card">
+      <button id="close-modal-btn" class="close-modal-btn" aria-label="Đóng">✕</button>
+      <div class="photo-inner">
+        <div class="photo-img-box">
+          <img id="current-photo" src="images/sample1.jpg" alt="Ảnh kỷ niệm Trung Thu" class="ken-burns">
+        </div>
+        <div class="photo-caption-box">
+          <p id="photo-caption" class="photo-caption"></p>
+          <span id="photo-date" class="photo-date"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
